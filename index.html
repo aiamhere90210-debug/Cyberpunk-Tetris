@@ -290,7 +290,7 @@
                 border-radius: 0;
                 border: none;
                 box-sizing: border-box;
-                background: transparent; /* Remixed: Stripped container backdrop entirely */
+                background: transparent; 
                 box-shadow: none;
                 backdrop-filter: none;
                 display: flex;
@@ -301,7 +301,6 @@
                 gap: 10px;
             }
 
-            /* Added a micro-shield panel right behind the vertical board framework */
             .board-wrapper {
                 background: rgba(10, 10, 15, 0.5);
                 padding: 10px;
@@ -310,7 +309,6 @@
                 border: 1px solid rgba(255, 255, 255, 0.05);
             }
 
-            /* Scales board comfortably to leave plenty of safe touch buffer room below */
             canvas#tetris {
                 height: 50vh;
                 width: auto;
@@ -321,7 +319,6 @@
                 display: block; 
             }
 
-            /* Portrait setup: Fixed position right above the rotate button container */
             .mobile-next-preview {
                 display: flex;
                 flex-direction: column;
@@ -353,7 +350,6 @@
                 transform-origin: bottom right;
             }
 
-            /* Responsive Sidebar layout tweaks */
             .sidebar {
                 width: 100%;
                 flex-direction: row;
@@ -392,13 +388,11 @@
                 padding: 5px;
             }
 
-            /* Scale the board perfectly down so it remains strictly centralized and unobstructed */
             canvas#tetris {
                 height: 65vh; 
                 width: auto;
             }
 
-            /* Shift buttons slightly closer to corner bounds to match natural wide-grip thumb radius */
             .dpad-container {
                 bottom: 15px;
                 left: 15px;
@@ -411,7 +405,6 @@
                 transform: scale(0.85);
             }
 
-            /* LANDSCAPE RE-ANCHOR: Anchors directly under the game board, perfectly centered horizontally */
             .mobile-next-preview {
                 position: fixed;
                 bottom: 10px;
@@ -445,7 +438,7 @@
             #score {
                 margin-left: 5px;
                 text-align: left;
-                text-shadow: 0 0 10px #000, 0 0 5px rgba(13, 255, 114, 0.6); /* Added shadow support since backdrop is gone */
+                text-shadow: 0 0 10px #000, 0 0 5px rgba(13, 255, 114, 0.6); 
             }
         }
     </style>
@@ -676,7 +669,7 @@
             merge(arena, player);
             playerReset();
             arenaSweep();
-            updateScore();
+                updateScore();
             dropCounter = 0;
         }
 
@@ -924,6 +917,15 @@
                 e.preventDefault(); 
             }
         }, { passive: false });
+
+        // AUTOMATIC BACKGROUND AUDIO SLEEP ENGINE
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                music.pause();
+            } else if (gameRunning) {
+                music.play().catch(e => console.log("Audio waiting for player swipe context: ", e));
+            }
+        });
 
         displayHighScores();
         draw();
